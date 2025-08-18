@@ -36,6 +36,7 @@ public class BorrowController {
     })
     public ResponseEntity<BorrowResponse> borrowBook(
             @Valid @RequestBody BorrowCreateRequest request) {
+        System.out.println("Received request: " + request);
         BorrowResponse response = borrowService.borrowBook(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -62,7 +63,7 @@ public class BorrowController {
             @Parameter(description = "Book ID filter") @RequestParam(required = false) Long bookId,
             @Parameter(description = "Active borrows only") @RequestParam(required = false) Boolean active,
             @Parameter(description = "Overdue borrows only") @RequestParam(required = false) Boolean overdue,
-            @Parameter(description = "Pagination parameters") Pageable pageable) {
+            @Parameter(hidden = true) Pageable pageable) {
         Page<BorrowResponse> response = borrowService.getAllBorrows(userId, bookId, active, overdue, pageable);
         return ResponseEntity.ok(response);
     }
